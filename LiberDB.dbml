@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="liber" Class="LiberDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\liber.mdf;Integrated Security=True;Connect Timeout=30;User Instance=True" SettingsObjectName="Liber.Properties.Settings" SettingsPropertyName="liberConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="liber.li_author" Member="li_author">
+    <Type Name="li_author">
+      <Column Name="ID_author" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="firstname" Type="System.String" DbType="VarChar(18) NOT NULL" CanBeNull="false" />
+      <Column Name="lastname" Type="System.String" DbType="VarChar(35) NOT NULL" CanBeNull="false" />
+      <Column Name="birthdate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="deathdate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="li_author_li_books" Member="li_books" ThisKey="ID_author" OtherKey="ID_author" Type="li_books" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_user" Member="li_user">
+    <Type Name="li_user">
+      <Column Name="DNI" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="firstname" Type="System.String" DbType="VarChar(18) NOT NULL" CanBeNull="false" />
+      <Column Name="lastname" Type="System.String" DbType="VarChar(35)" CanBeNull="true" />
+      <Column Name="birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="direction" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="phone" Type="System.String" DbType="Char(9)" CanBeNull="true" />
+      <Column Name="typeu" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="nickname" Type="System.String" DbType="VarChar(22) NOT NULL" CanBeNull="false" />
+      <Column Name="passwd" Type="System.String" DbType="VarChar(22) NOT NULL" CanBeNull="false" />
+      <Association Name="li_user_li_basic_preferences" Member="li_basic_preferences" ThisKey="DNI" OtherKey="DNI" Type="li_basic_preferences" />
+      <Association Name="li_user_li_rss" Member="li_rss" ThisKey="DNI" OtherKey="DNI" Type="li_rss" />
+      <Association Name="li_user_li_statistics" Member="li_statistics" ThisKey="DNI" OtherKey="DNI" Type="li_statistics" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_basic_preferences" Member="li_basic_preferences">
+    <Type Name="li_basic_preferences">
+      <Column Name="ID_preferences" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="US_lang" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="US_formatp" Type="System.String" DbType="VarChar(7)" CanBeNull="true" />
+      <Column Name="US_dinamics" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="DNI" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="li_user_li_basic_preferences" Member="li_user" ThisKey="DNI" OtherKey="DNI" Type="li_user" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_books" Member="li_books">
+    <Type Name="li_books">
+      <Column Name="ID_book" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="title" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="sinopsis" Type="System.String" DbType="VarChar(240)" CanBeNull="true" />
+      <Column Name="genre" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="portada" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="ID_author" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="ID_saga" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Association Name="li_books_li_documents" Member="li_documents" ThisKey="ID_book" OtherKey="ID_book" Type="li_documents" />
+      <Association Name="li_books_li_publications" Member="li_publications" ThisKey="ID_book" OtherKey="ID_book" Type="li_publications" />
+      <Association Name="li_books_li_statistics" Member="li_statistics" ThisKey="ID_book" OtherKey="ID_book" Type="li_statistics" />
+      <Association Name="li_author_li_books" Member="li_author" ThisKey="ID_author" OtherKey="ID_author" Type="li_author" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="li_saga_li_books" Member="li_saga" ThisKey="ID_saga" OtherKey="ID_saga" Type="li_saga" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_documents" Member="li_documents">
+    <Type Name="li_documents">
+      <Column Name="ID_publication" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="path_book" Type="System.String" DbType="VarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="format_book" Type="System.String" DbType="VarChar(7) NOT NULL" CanBeNull="false" />
+      <Column Name="ID_book" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="li_books_li_documents" Member="li_books" ThisKey="ID_book" OtherKey="ID_book" Type="li_books" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_editorial" Member="li_editorial">
+    <Type Name="li_editorial">
+      <Column Name="ID_Editorial" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="direction" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="phone" Type="System.String" DbType="Char(9)" CanBeNull="true" />
+      <Column Name="webpage" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Association Name="li_editorial_li_publications" Member="li_publications" ThisKey="ID_Editorial" OtherKey="ID_Editorial" Type="li_publications" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_publications" Member="li_publications">
+    <Type Name="li_publications">
+      <Column Name="ID_Editorial" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_book" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="li_books_li_publications" Member="li_books" ThisKey="ID_book" OtherKey="ID_book" Type="li_books" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="li_editorial_li_publications" Member="li_editorial" ThisKey="ID_Editorial" OtherKey="ID_Editorial" Type="li_editorial" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_rss" Member="li_rss">
+    <Type Name="li_rss">
+      <Column Name="ID_rss" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="link" Type="System.String" DbType="VarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="DNI" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="li_user_li_rss" Member="li_user" ThisKey="DNI" OtherKey="DNI" Type="li_user" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_saga" Member="li_saga">
+    <Type Name="li_saga">
+      <Column Name="ID_saga" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="typep" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="li_saga_li_books" Member="li_books" ThisKey="ID_saga" OtherKey="ID_saga" Type="li_books" />
+    </Type>
+  </Table>
+  <Table Name="liber.li_statistics" Member="li_statistics">
+    <Type Name="li_statistics">
+      <Column Name="ID_book" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DNI" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="numleido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nota" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="li_user_li_statistics" Member="li_user" ThisKey="DNI" OtherKey="DNI" Type="li_user" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="li_books_li_statistics" Member="li_books" ThisKey="ID_book" OtherKey="ID_book" Type="li_books" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+</Database>
